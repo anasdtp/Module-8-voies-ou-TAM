@@ -22,3 +22,4 @@
 
 
 int DFC(uint8_t TON);
+uint8_t FDC(int freq);

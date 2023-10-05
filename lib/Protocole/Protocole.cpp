@@ -75,3 +75,20 @@ int DFC(uint8_t TON){
 
   return TON_F;
 }
+
+/*frequence to digital converter*/
+uint8_t FDC(int freq) {
+    const int frequencies[16] = {2653, 1505, 1603, 1707, 1818, 1936, 2062, 2196, 2340, 2491, 3214, 1245, 3009, 1327, 2825, 0};
+    const int marginOfError = 100; // Marge d'erreur de fréquence en Hz
+
+    uint8_t result = 0xF; // Valeur par défaut en cas de fréquence non reconnue
+
+    for (int i = 0; i < 16; ++i) {
+        if (abs(freq - frequencies[i]) <= marginOfError) {
+            result = i;
+            break;
+        }
+    }
+
+    return result;
+}

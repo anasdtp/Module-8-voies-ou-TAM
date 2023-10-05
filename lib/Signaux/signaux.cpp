@@ -2,6 +2,10 @@
 
 const int pinSortie = 26;
 
+void init_Signaux(){
+  pinMode(pinSortie, OUTPUT);
+}
+
 /*output en tension entre 0 et 3.3V*/
 void output(double output){
   if(output<0){output = 0;}else if(output>3.3){output = 3.3;}

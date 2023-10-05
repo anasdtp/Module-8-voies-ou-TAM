@@ -1,7 +1,8 @@
 #include "timerAsserBas.h"
-#include "CRAC_utility.h"
 
 hw_timer_t * timer = NULL;
+
+volatile uint16_t mscount = 0;
 
 void onTime() {//fonction s'exécutent à chaque interruptions 
    mscount++;
@@ -10,7 +11,7 @@ void onTime() {//fonction s'exécutent à chaque interruptions
 //Timer
 void init_Timer(){
   static char idTimer = 0; //le numéro du Timer de 0 à 3
-  static int prescaler = 8000; // la valeur du diviseur de temps
+  static int prescaler = 80; // la valeur du diviseur de temps
   bool flag = true; //vrai pour compter sur le front montant, faux pour compter sur le front descendant
     // Configure le Prescaler a 80 le quartz de l ESP32 est cadence a 80Mhz => à vérifier pour l'esp32-32E, peut etre 40Mhz?
    // 80000000 / 80 = 1000000 tics / seconde
@@ -18,7 +19,25 @@ void init_Timer(){
    timerAttachInterrupt(timer, &onTime, true);//fait qu'on execute la fonction onTime à chaque interruptions
     
    // Regle le declenchement d une alarme chaque seconde
-   timerAlarmWrite(timer, 1, true);      //freq de 250 000 Hz    
+   timerAlarmWrite(timer, 1000, true);   
    timerAlarmEnable(timer); //active l'alarme
    //Serial.println("Fin init Timer");
 }
+
+/*Fonction bloquante pendant un temps TIME en ms en utilsant un Timer*/
+void TempsEchantionnage(int TIME){
+    if (mscount >= (TIME)) 
+  {   
+    Serial.println("erreur temp calcul");
+    Serial.println(mscount);
+  }
+  else 
+  {
+    while (mscount<(TIME));
+  }
+  //digitalWrite(27, set);//pour mesurer le temps de boucle avec l'oscilloscope
+  //set = !set; //temps de boucle = 1/(freq/2)
+  mscount = 0; 
+}
+
+
