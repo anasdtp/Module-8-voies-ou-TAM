@@ -2,23 +2,28 @@
 #include <Protocole.h>
 #include <signaux.h>
 
-void trame(uint8_t adresse, uint16_t cmd){
-  uint8_t adrL  = adresse &0x0F,  adrM  = (adresse>> 4)&0x0F,
-          cmdL  = cmd     &0x0F,  cmdL2 = (cmd    >> 4)&0x0F,
-          cmdM2 = (cmd>>8)&0x0F,  cmdM  = (cmd    >>12)&0x0F;
+void trame(uint8_t adresse, uint8_t commande1, uint8_t commande0){         //Exemple : 0x21 0x88 ox88
+  uint8_t adr1  = (adresse  >> 4)&0x0F, adr0 = adresse    &0x0F,
+          cmd3  = (commande1>> 4)&0x0F, cmd2 = commande1  &0x0F,
+          cmd1  = (commande0>> 4)&0x0F, cmd0 = commande0  &0x0F;
 
-  if(adrL  == adrM) {adrL  = 0x0E; }
-  if(cmdM  == adrL) {cmdM  = 0x0E; }
-  if(cmdM2 == cmdM) {cmdM2 = 0x0E; }
-  if(cmdL2 == cmdM2){cmdL2 = 0x0E; }
-  if(cmdL  == cmdL2){cmdL  = 0x0E; }
+  //Pas deux frequences similaires succesives : 
+  if(adr0 == adr1)  {adr0 = 0x0E;}
+  if(cmd3 == adr0)  {cmd3 = 0x0E;}
+  if(cmd2 == cmd3)  {cmd2 = 0x0E;}
+  if(cmd1 == cmd2)  {cmd1 = 0x0E;}
+  if(cmd0 == cmd1)  {cmd0 = 0x0E;}                                         //Exemple : 0x21 0x8E ox8E
 
-  ondeCarree(DFC(adrM), TEMPS_DUN_TON);   //Most significant adr
-  ondeCarree(DFC(adrL), TEMPS_DUN_TON);   //Least significant adr
+  ondeCarree(DFC(adr1), TEMPS_DUN_TON);   //Most significant adr
+  ondeCarree(DFC(adr0), TEMPS_DUN_TON);   //Least significant adr
 
-  ondeCarree(DFC(cmdM), TEMPS_DUN_TON);   //Most significant cmd
-  ondeCarree(DFC(cmdM2), TEMPS_DUN_TON);  //second Most significant cmd
-  ondeCarree(DFC(cmdL2), TEMPS_DUN_TON);  //second Least significant cmd
-  ondeCarree(DFC(cmdL), TEMPS_DUN_TON);   //Least significant cmd
+  ondeCarree(DFC(cmd3), TEMPS_DUN_TON);   //Most significant cmd
+  ondeCarree(DFC(cmd2), TEMPS_DUN_TON);  //second Most significant cmd
+  ondeCarree(DFC(cmd1), TEMPS_DUN_TON);  //second Least significant cmd
+  ondeCarree(DFC(cmd0), TEMPS_DUN_TON);   //Least significant cmd         //Exemple : Au tam : F218E8EF
+}
+
+void trameV2(uint8_t adresse, uint16_t commande){
+  trame(adresse, ((commande>>8)&0xFF), (commande&0xFF));
 }
 

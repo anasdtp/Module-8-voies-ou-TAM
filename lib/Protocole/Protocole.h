@@ -20,6 +20,11 @@
 #define TON_E 2825
 #define TON_F 0
 
+//Protocole de communication :
+
+
+
+//---------------------------
 
 int DFC(uint8_t TON);
 uint8_t FDC(int freq);
