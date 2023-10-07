@@ -3,11 +3,11 @@
 #define OSCILLATOR  //Uncomment to active the oscillator
 
 bool            flag          = true;                                     // Flag to enable print frequency reading
-uint32_t        overflow      = 20000;                                    // Max Pulse Counter value
+uint32_t        overflow      = 10000;                                    // Max Pulse Counter - initial : 20000
 int16_t         pulses        = 0;                                        // Pulse Counter value
 uint32_t        multPulses    = 0;                                        // Quantidade de overflows do contador PCNT
-uint32_t        sample_time   = 1000000;                                  // sample time of 1 second to count pulses
-uint32_t        osc_freq      = 2062;                                    // Oscillator frequency - initial 12543 Hz (may be 1 Hz to 40 MHz)
+uint32_t        sample_time   = 4000;                               // sample time of 1 second to count pulses, can be changed - initial : 1000000
+uint32_t        osc_freq      = 1603;                                    // Oscillator frequency - initial 12543 Hz (may be 1 Hz to 40 MHz)
 uint32_t        mDuty         = 0;                                        // Duty value
 uint32_t        resolution    = 0;                                        // Resolution value
 float           frequency     = 0;                                        // frequency value
@@ -18,7 +18,8 @@ esp_timer_handle_t timer_handle;                                          // Cre
 
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;                     // portMUX_TYPE to do synchronism
 
-
+/*0 : 2653.  1 : 1505.  2 : 1603.  3 : 1707.  4 : 1818.  5 : 1936.  6 : 2062.  7 : 2196.  8 : 2340.  
+  9 : 2491.  A : 3214.  B : 1245.  C : 3009.  D : 1327.  E : 2825.  F : 0   */
 
 //----------------------------------------------------------------------------
 void init_osc_freq ()                                                     // Initialize Oscillator to test Freq Meter
@@ -167,12 +168,12 @@ float FrequencyLoop()
   if (flag == true)                                                     // If count has ended
   {
     flag = false;                                                       // change flag to disable print
-    frequency = (pulses + (multPulses * overflow)) / 2  ;               // Calculation of frequency
-    printf("Frequency : %f Hz \n", frequency);               // Print frequency 
+    frequency = ((pulses + (multPulses * overflow)) / 2.0)* 1e6/sample_time  ;               // Calculation of frequency
+    // printf("Frequency : %f Hz \n", frequency);               // Print frequency 
 
     multPulses = 0;                                                     // Clear overflow counter
     // Put your function here, if you want
-    delay (100);                                                        // Delay 100 ms
+    // delay (10);                                                        // Delay 100 ms
     // Put your function here, if you want
 
     pcnt_counter_clear(PCNT_COUNT_UNIT);                                // Clear Pulse Counter

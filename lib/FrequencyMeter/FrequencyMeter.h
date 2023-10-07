@@ -44,4 +44,5 @@ void init_frequencyMeter ();
 char *ultos_recursive(unsigned long val, char *s, unsigned radix, int pos);
 char *ltos(long val, char *s, int radix);
 
+void oscillatorTestLoop();
 float FrequencyLoop();
