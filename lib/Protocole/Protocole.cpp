@@ -78,12 +78,12 @@ int DFC(uint8_t TON){
 
 /*frequence to digital converter*/
 uint8_t FDC(int freq) {
-    const int frequencies[16] = {2653, 1505, 1603, 1707, 1818, 1936, 2062, 2196, 2340, 2491, 3214, 1245, 3009, 1327, 2825, 0};
-    const int marginOfError = 100; // Marge d'erreur de fréquence en Hz
+    const int frequencies[16] = {TON_0, TON_1, TON_2, TON_3, TON_4, TON_5, TON_6, TON_7, TON_8, TON_9, TON_A, TON_B, TON_C, TON_D, TON_E, TON_F};
+    const int marginOfError = 25; // Marge d'erreur de fréquence en Hz
 
     uint8_t result = 0xF; // Valeur par défaut en cas de fréquence non reconnue
 
-    for (int i = 0; i < 16; ++i) {
+    for (uint8_t i = 0; i < 16; ++i) {
         if (abs(freq - frequencies[i]) <= marginOfError) {
             result = i;
             break;

@@ -49,7 +49,6 @@ void setup() {
 
   mscount = 0;
 
-  
 }
 
 void loop() { 
@@ -61,13 +60,25 @@ void loop() {
     etatVoiesPrecedent = etatVoies;
   }
   
+  int trameTempo[6] = {TON_2, TON_1, TON_A, TON_4, TON_0, TON_1};
+  for(int i=0; i<6; i++){
+    
+    osc_freq = trameTempo[i];
+    init_osc_freq ();
+    delay(34);
+  }
+  osc_freq = trameTempo[0];
+  init_osc_freq ();
+  
+  
+
 
   //test Lecture Freq n° Deux : 
   // freqMesure(analogRead(pinSignal));  //********
 
   TraitementMsgLoop();
 
-  TempsEchantionnage(200);
+  TempsEchantionnage(300);
 }
 
 
@@ -111,48 +122,51 @@ void TraitementMsgLoop(){//Tel un module 8 voies pour le moment et non pas comme
 
 
 
-//Variables pour mesure frequence avec capteur infrarouge
-int Dernier_marqueur_Temps=0;
-int Valeur_Capteur;
-int Temps_Passe_Depuis_Lecture=0;
 
-int Etat_Signal=LOW;
-int Etat_Signal_Temporaire;
-int nbFrontMontantEtDescendant=0;
+//On Hold parce que FrequencyMeter.h fonctionne bien pour le moment
 
-int Sensibilite_Capteur=2000; //Sensibilité (tester la valeur en faisant une lecture de l'analog0)
-int Nombres_marques_Blanches=1; // Nombre de zones blanches par rotation
-long Intervalle_Lecture=34 * 1000; // Délai entre les lectures en microsecondes
+// //Variables pour mesure frequence avec capteur infrarouge
+// int Dernier_marqueur_Temps=0;
+// int Valeur_Capteur;
+// int Temps_Passe_Depuis_Lecture=0;
 
-void freqMesure(int Valeur_Capteur)
-{
-  static double freq = 0;
+// int Etat_Signal=LOW;
+// int Etat_Signal_Temporaire;
+// int nbFrontMontantEtDescendant=0;
 
-  Temps_Passe_Depuis_Lecture=micros()-Dernier_marqueur_Temps ;
-  //Allumage de la led de la carte pour affichage etat capteur
+// int Sensibilite_Capteur=2000; //Sensibilité (tester la valeur en faisant une lecture de l'analog0)
+// int Nombres_marques_Blanches=1; // Nombre de zones blanches par rotation
+// long Intervalle_Lecture=34 * 1000; // Délai entre les lectures en microsecondes
 
-  if(Valeur_Capteur<Sensibilite_Capteur) {Etat_Signal=LOW; }
-  else {Etat_Signal=HIGH;}
+// void freqMesure(int Valeur_Capteur)
+// {
+//   static double freq = 0;
 
-  //Compte du nombre de changement d'état du capteur
-  if(Etat_Signal_Temporaire!=Etat_Signal)
-  {
-    nbFrontMontantEtDescendant++;
-    Etat_Signal_Temporaire=Etat_Signal;
-  }
+//   Temps_Passe_Depuis_Lecture=micros()-Dernier_marqueur_Temps ;
+//   //Allumage de la led de la carte pour affichage etat capteur
 
-  //Serial.println(Valeur_Capteur);
+//   if(Valeur_Capteur<Sensibilite_Capteur) {Etat_Signal=LOW; }
+//   else {Etat_Signal=HIGH;}
 
-  if(Temps_Passe_Depuis_Lecture>=Intervalle_Lecture)
-  {//Si on a bien patienté durant le délai de lecture
-    double periode = Intervalle_Lecture*1e6/(nbFrontMontantEtDescendant/2.0);
-    if(periode){freq = 1.0/periode;}else{freq = 0;}
-    Serial.println("Hz");
-    Serial.println(freq);
+//   //Compte du nombre de changement d'état du capteur
+//   if(Etat_Signal_Temporaire!=Etat_Signal)
+//   {
+//     nbFrontMontantEtDescendant++;
+//     Etat_Signal_Temporaire=Etat_Signal;
+//   }
 
-    nbFrontMontantEtDescendant=0;
-    Dernier_marqueur_Temps=micros();
+//   //Serial.println(Valeur_Capteur);
+
+//   if(Temps_Passe_Depuis_Lecture>=Intervalle_Lecture)
+//   {//Si on a bien patienté durant le délai de lecture
+//     double periode = Intervalle_Lecture*1e6/(nbFrontMontantEtDescendant/2.0);
+//     if(periode){freq = 1.0/periode;}else{freq = 0;}
+//     Serial.println("Hz");
+//     Serial.println(freq);
+
+//     nbFrontMontantEtDescendant=0;
+//     Dernier_marqueur_Temps=micros();
     
-  }
+//   }
 
-}
+// }

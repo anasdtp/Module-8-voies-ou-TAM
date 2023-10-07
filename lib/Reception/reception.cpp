@@ -22,7 +22,7 @@ void incrementUsCountTask(void *parameter)
             uint8_t freqToHex = FDC(freq); //Fonction FDC() à corriger -> Marge d'erreur à revoir
             rxMsg[FIFO_ecriture].trame[rxMsg[FIFO_ecriture].nbFreq] = freqToHex;
             printf("Frequency : %d Hz -> N°%d : 0x%X\n", freq, rxMsg[FIFO_ecriture].nbFreq, freqToHex);               // Print frequency 
-            if (pastFreqToHex != freqToHex)
+            if (pastFreqToHex != freqToHex && freqToHex != 0xF)
             {
                 pastFreqToHex = freqToHex;
                 rxMsg[FIFO_ecriture].nbFreq++;
