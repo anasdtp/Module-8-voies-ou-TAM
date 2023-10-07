@@ -43,5 +43,6 @@ void incrementUsCountTask(void *parameter)
 
 void init_Reception(){
     // Créez une tâche pour incrémenter uscount sur le deuxième cœur (CORE_1)
-  xTaskCreatePinnedToCore(incrementUsCountTask, "IncrementTask", 1000, NULL, 1, NULL, 1);
+  xTaskCreatePinnedToCore(incrementUsCountTask, "IncrementTask", 2048, NULL, 1, NULL, 1);
+
 }   

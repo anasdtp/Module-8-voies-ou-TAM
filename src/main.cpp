@@ -22,7 +22,7 @@ void freqMesure(int Valeur_Capteur);
 void setup() {
   Serial.begin(115200);
   //Timer
-  // init_Timer(); //********
+  init_Timer(); //********
   //Signaux
   init_Signaux();
   //Voies
@@ -79,7 +79,7 @@ void TraitementMsgLoop(){//Tel un module 8 voies pour le moment et non pas comme
   if(FIFO_max_occupation<FIFO_occupation){FIFO_max_occupation=FIFO_occupation;}
 
   if(!FIFO_occupation){/*Alors pas de message*/return;}
-
+  Serial.printf("Recu %X %X %X\n", rxMsg[FIFO_lecture].adr, rxMsg[FIFO_lecture].cmd1, rxMsg[FIFO_lecture].cmd0);
   if(rxMsg[FIFO_lecture].adr == adresse_mod){//Alors cela nous concerne
     trame(rxMsg[FIFO_lecture].adr, rxMsg[FIFO_lecture].cmd1, rxMsg[FIFO_lecture].cmd0); // On envoie l'ACK
 

@@ -1,13 +1,13 @@
 #include <FrequencyMeter.h>
 
-// #define OSCILLATOR  //Uncomment to active the oscillator
+#define OSCILLATOR  //Uncomment to active the oscillator
 
 bool            flag          = true;                                     // Flag to enable print frequency reading
 uint32_t        overflow      = 20000;                                    // Max Pulse Counter value
 int16_t         pulses        = 0;                                        // Pulse Counter value
 uint32_t        multPulses    = 0;                                        // Quantidade de overflows do contador PCNT
 uint32_t        sample_time   = 1000000;                                  // sample time of 1 second to count pulses
-uint32_t        osc_freq      = 12543;                                    // Oscillator frequency - initial 12543 Hz (may be 1 Hz to 40 MHz)
+uint32_t        osc_freq      = 2062;                                    // Oscillator frequency - initial 12543 Hz (may be 1 Hz to 40 MHz)
 uint32_t        mDuty         = 0;                                        // Duty value
 uint32_t        resolution    = 0;                                        // Resolution value
 float           frequency     = 0;                                        // frequency value
