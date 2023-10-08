@@ -1,5 +1,12 @@
 #include <Protocole.h>
 
+
+uint8_t adresse_mod = 0x21;
+
+
+bool waitingForACK = false; //Flag attente ack
+uint16_t waitingForACK_cmd = 0xFFFF;//Variable d'attente ACK
+
 /*Digital to frequence converter ; TON sur 4 bits*/
 int DFC(uint8_t TON){
   switch (TON)

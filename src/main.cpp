@@ -12,15 +12,15 @@
 
 
 
-uint8_t adresse_mod= 0x21;
+
 uint16_t etatVoies = 0, etatVoiesPrecedent = 0;
 
 //---------
 //const int pinSignal = 33; // Numéro de la pin à laquelle le signal est connecté
-void TraitementMsgLoop();
-void freqMesure(int Valeur_Capteur);
+
+// void freqMesure(int Valeur_Capteur);
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(921600);
   //Timer
   init_Timer(); //********
   //Signaux
@@ -31,6 +31,10 @@ void setup() {
   
 
   init_Reception();
+
+  init_ProcessRxTask();
+
+  
 
 
   //Tension de base en sortie
@@ -43,9 +47,9 @@ void setup() {
                       |0x020*Voie5() | 0x040*Voie6() | 0x100*Voie7() | 0x200*Voie8();
   etatVoiesPrecedent = etatVoies;
 
-  trame(adresse_mod, 0x88, 0x88);
-  delay(400);//Attendre l'ACK
-  trameV2(adresse_mod, (0xA400 + etatVoies));
+  trameWAck(adresse_mod, 0x88, 0x88);
+  // delay(400);//Attendre l'ACK au lieu du delay(400)
+  trameWAckV2(adresse_mod, (0xA400 + etatVoies));
 
   mscount = 0;
 
@@ -56,10 +60,11 @@ void loop() {
              |0x020*Voie5() | 0x040*Voie6() | 0x100*Voie7() | 0x200*Voie8();
 
   if(etatVoiesPrecedent != etatVoies){
-    trameV2(adresse_mod, (0xA400 + etatVoies));
+    trameWAckV2(adresse_mod, (0xA400 + etatVoies));
     etatVoiesPrecedent = etatVoies;
   }
   
+  /* //Test lecture freq toutes les 34 ms comme en situation reelle
   int trameTempo[6] = {TON_2, TON_1, TON_A, TON_4, TON_0, TON_1};
   for(int i=0; i<6; i++){
     
@@ -69,57 +74,13 @@ void loop() {
   }
   osc_freq = trameTempo[0];
   init_osc_freq ();
-  
-  
-
+  //*/
 
   //test Lecture Freq n° Deux : 
   // freqMesure(analogRead(pinSignal));  //********
 
-  TraitementMsgLoop();
-
-  TempsEchantionnage(300);
+  TempsEchantionnage(400);
 }
-
-
-void TraitementMsgLoop(){//Tel un module 8 voies pour le moment et non pas comme un TAM. Mais c'est similaire
-  static signed char FIFO_lecture=0,FIFO_occupation=0,FIFO_max_occupation=0;
-
-  FIFO_occupation=FIFO_ecriture-FIFO_lecture;
-  if(FIFO_occupation<0){FIFO_occupation=FIFO_occupation+SIZE_FIFO;}
-  if(FIFO_max_occupation<FIFO_occupation){FIFO_max_occupation=FIFO_occupation;}
-
-  if(!FIFO_occupation){/*Alors pas de message*/return;}
-  Serial.printf("Recu %X %X %X\n", rxMsg[FIFO_lecture].adr, rxMsg[FIFO_lecture].cmd1, rxMsg[FIFO_lecture].cmd0);
-  if(rxMsg[FIFO_lecture].adr == adresse_mod){//Alors cela nous concerne
-    trame(rxMsg[FIFO_lecture].adr, rxMsg[FIFO_lecture].cmd1, rxMsg[FIFO_lecture].cmd0); // On envoie l'ACK
-
-    //Si c'est un TAM on se contente d'afficher ensuite la trame sur un LCD
-
-    //On traite maintenant la commande
-    switch (rxMsg[FIFO_lecture].cmd1)
-    {
-    case 0xD9:
-      if(rxMsg[FIFO_lecture].cmd0 == adresse_mod){
-        trame(adresse_mod, 0x88, 0x88);
-        delay(400);//Attendre l'ACK //A reflechir
-        trameV2(adresse_mod, (0xA400 + etatVoies));
-      }
-      break;
-    
-    default:
-      break;
-    }
-
-  }
-
-
-
-  //Fin traitement du msg, msg suivant
-  FIFO_lecture=(FIFO_lecture+1)%SIZE_FIFO;
-}
-
-
 
 
 

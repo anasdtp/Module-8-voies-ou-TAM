@@ -27,3 +27,31 @@ void trameV2(uint8_t adresse, uint16_t commande){
   trame(adresse, ((commande>>8)&0xFF), (commande&0xFF));
 }
 
+bool trameWAck(uint8_t adresse, uint8_t commande1, uint8_t commande0){//Fonction utilisable uniquement dans loop() je pense
+  const int TimeOut = 400, MaxRepeat = 4;
+
+  waitingForACK = true;
+  waitingForACK_cmd = ((commande1<<8) & 0xFF00) | (commande0 & 0xFF);
+
+  trame(adresse, commande1, commande0);
+
+  int start_time = millis(), i = 0;
+  while(waitingForACK){
+    if((millis() - start_time)>TimeOut){
+      i++;
+      if(i>MaxRepeat){
+        waitingForACK = false; // Arrêtez d'attendre après le nombre maximal de répétitions
+        return false;
+        }
+      
+      trame(adresse, commande1, commande0);
+      start_time = millis();
+    }
+  }
+
+  return true;
+}
+
+bool trameWAckV2(uint8_t adresse, uint16_t commande){
+  return trameWAck(adresse, ((commande>>8)&0xFF), (commande&0xFF));
+}

@@ -19,3 +19,7 @@ extern FreqMessage rxMsg[SIZE_FIFO];
 extern unsigned char FIFO_ecriture;
 
 void init_Reception();
+
+void init_ProcessRxTask();
+void ProcessRx();
+void ProcessRxTask(void *parameter);

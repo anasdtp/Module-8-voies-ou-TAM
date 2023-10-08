@@ -26,5 +26,11 @@
 
 //---------------------------
 
+extern uint8_t adresse_mod;
+
+extern bool waitingForACK; //Flag attente ack
+extern uint16_t waitingForACK_cmd;//Variable d'attente ACK
+
+
 int DFC(uint8_t TON);
 uint8_t FDC(int freq);
