@@ -12,7 +12,197 @@ void init_8Voies(){
     pinMode(pinVoie7, INPUT_PULLDOWN); pinMode(pinVoie8, INPUT_PULLDOWN);
 }
 
-bool Voie1(){return !digitalRead(pinVoie1);} bool Voie2(){return !digitalRead(pinVoie2);} 
-bool Voie3(){return !digitalRead(pinVoie3);} bool Voie4(){return !digitalRead(pinVoie4);}
-bool Voie5(){return !digitalRead(pinVoie5);} bool Voie6(){return !digitalRead(pinVoie6);} 
-bool Voie7(){return !digitalRead(pinVoie7);} bool Voie8(){return !digitalRead(pinVoie8);}
+bool Voie1()
+{
+    static bool waiting = false, pastEtat = true;
+    static unsigned long start_time;
+    static int Timeout = 1000;
+
+    static bool etat = true;
+
+    etat = !digitalRead(pinVoie1);
+
+    if (waiting)
+    {
+        if ((millis() - start_time) >= Timeout)
+        {
+            waiting = false;
+        }
+    }
+    else if (pastEtat != etat)
+    {
+        pastEtat = etat;
+        waiting = true;
+        start_time = millis();
+    }
+
+    return pastEtat;
+}
+
+bool Voie2()
+{
+    static bool waiting = false, pastEtat = true;
+    static unsigned long start_time;
+    static int Timeout = 1000;
+
+    static bool etat = true;
+
+    etat = !digitalRead(pinVoie2);
+    if (waiting){
+        if ((millis() - start_time) >= Timeout){
+            waiting = false;
+        }
+    }
+    else if (pastEtat != etat)
+    {
+        pastEtat = etat;
+        waiting = true;
+        start_time = millis();
+    }
+
+    return pastEtat; 
+}
+
+bool Voie3()
+{
+    static bool waiting = false, pastEtat = true;
+    static unsigned long start_time;
+    static int Timeout = 1000;
+    
+    static bool etat = true;
+
+    etat = !digitalRead(pinVoie3);
+    if (waiting){
+        if ((millis() - start_time) >= Timeout){
+            waiting = false;
+        }
+    }
+    else if (pastEtat != etat)
+    {
+        pastEtat = etat;
+        waiting = true;
+        start_time = millis();
+    }
+
+    return pastEtat; 
+}
+
+bool Voie4()
+{
+    static bool waiting = false, pastEtat = true;
+    static unsigned long start_time;
+    static int Timeout = 1000;
+    
+    static bool etat = true;
+
+    etat = !digitalRead(pinVoie4);
+    if (waiting){
+        if ((millis() - start_time) >= Timeout){
+            waiting = false;
+        }
+    }
+    else if (pastEtat != etat)
+    {
+        pastEtat = etat;
+        waiting = true;
+        start_time = millis();
+    }
+
+    return pastEtat; 
+}
+
+bool Voie5()
+{
+    static bool waiting = false, pastEtat = true;
+    static unsigned long start_time;
+    static int Timeout = 1000;
+    
+    static bool etat = true;
+
+    etat = !digitalRead(pinVoie5);
+    if (waiting){
+        if ((millis() - start_time) >= Timeout){
+            waiting = false;
+        }
+    }
+    else if (pastEtat != etat)
+    {
+        pastEtat = etat;
+        waiting = true;
+        start_time = millis();
+    }
+
+    return pastEtat; 
+}
+
+bool Voie6()
+{
+    static bool waiting = false, pastEtat = true;
+    static unsigned long start_time;
+    static int Timeout = 1000;
+    
+    static bool etat = true;
+
+    etat = !digitalRead(pinVoie6);
+    if (waiting){
+        if ((millis() - start_time) >= Timeout){
+            waiting = false;
+        }
+    }
+    else if (pastEtat != etat)
+    {
+        pastEtat = etat;
+        waiting = true;
+        start_time = millis();
+    }
+
+    return pastEtat; 
+}
+
+bool Voie7()
+{
+    static bool waiting = false, pastEtat = true;
+    static unsigned long start_time;
+    static int Timeout = 1000;
+    
+    static bool etat = true;
+
+    etat = !digitalRead(pinVoie7);
+    if (waiting){
+        if ((millis() - start_time) >= Timeout){
+            waiting = false;
+        }
+    }
+    else if (pastEtat != etat)
+    {
+        pastEtat = etat;
+        waiting = true;
+        start_time = millis();
+    }
+
+    return pastEtat; 
+}
+
+bool Voie8()
+{
+    static bool waiting = false, pastEtat = true;
+    static unsigned long start_time;
+    static int Timeout = 1000;
+    
+    static bool etat = true;
+
+    etat = !digitalRead(pinVoie8);
+    if (waiting){
+        if ((millis() - start_time) >= Timeout){
+            waiting = false;
+        }
+    }
+    else if (pastEtat != etat)
+    {
+        pastEtat = etat;
+        waiting = true;
+        start_time = millis();
+    }
+
+    return pastEtat; 
+}

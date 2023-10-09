@@ -35,6 +35,8 @@ bool trameWAck(uint8_t adresse, uint8_t commande1, uint8_t commande0){//Fonction
 
   trame(adresse, commande1, commande0);
 
+  delay(100);
+  
   int start_time = millis(), i = 0;
   while(waitingForACK){
     if((millis() - start_time)>TimeOut){

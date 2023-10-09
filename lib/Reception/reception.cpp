@@ -10,7 +10,7 @@ unsigned char FIFO_ecriture = 0;
 
 uint8_t pastFreqToHex = 0xF;//Mis à 0xF car cela correspond à 0 Hz
 
-void incrementUsCountTask(void *parameter)
+void gestionRx(void *parameter)
 {
     init_frequencyMeter();
 
@@ -49,7 +49,9 @@ void incrementUsCountTask(void *parameter)
 
 void init_Reception(){
     // Créez une tâche pour incrémenter uscount sur le deuxième cœur (CORE_1)
-  xTaskCreatePinnedToCore(incrementUsCountTask, "IncrementTask", 2048, NULL, 1, NULL, 1);
+  xTaskCreatePinnedToCore(gestionRx, "GestionRxTask", 2048, NULL, 1, NULL, 1);
+
+  init_ProcessRxTask();
 
 }   
 //------------------------------------------------------------------------------------------------------------------------
