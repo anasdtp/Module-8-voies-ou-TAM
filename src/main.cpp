@@ -49,7 +49,7 @@ void setup() {
 
   if(trameWAck(adresse_mod, 0x88, 0x88)){
     // delay(400);//Attendre l'ACK au lieu du delay(400)
-    trameWAckV2(adresse_mod, (0xA400 + etatVoies));
+    // trameWAckV2(adresse_mod, (0xA400 + etatVoies));
   }
   
   

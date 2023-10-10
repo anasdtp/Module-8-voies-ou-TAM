@@ -167,16 +167,16 @@ void oscillatorTestLoop(){
 float FrequencyLoop()
 {
   //Afin de tester :
-  // static int freqTest[12+6] = {TON_2, TON_2, TON_2, TON_1, TON_1, TON_1, TON_8, TON_8, TON_8, TON_E, TON_E, TON_E, TON_8, TON_8, TON_8, TON_E, TON_E, TON_E};
-  // static int freqActuelle = 0, n = 0;
+  // static int freqTest[12+6] = {3500, 4000, TON_2, TON_1, TON_1, TON_1, TON_8, TON_8, TON_8, TON_E, 3500, TON_E, TON_8, 3500, 3500, 3500, 3500, 3500};
+  // static int freqActuelle = 0, n = 0, do_It = 1;
 
   // if(freqActuelle < (12+6)){
   //   if(!freqActuelle){delay(2000);}
   //   return freqTest[freqActuelle++];
   // }
-  // else if(n < 1){
-  //   n++;
-  //   delay(2000);
+  // else if((n++) > 10 && do_It){
+  //   do_It = 0;
+  //   delay(20000);
   //   freqActuelle = 0;
   //   return freqTest[freqActuelle++];
   // }

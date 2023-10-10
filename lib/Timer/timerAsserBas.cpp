@@ -2,7 +2,8 @@
 
 hw_timer_t * timer = NULL;
 
-volatile uint16_t mscount = 0, mscount2 = 0;
+volatile uint16_t mscount = 0;
+volatile uint32_t mscount2 = 0;
 
 void onTime() {//fonction s'exécutent à chaque interruptions 
    mscount++; mscount2++;
@@ -41,3 +42,6 @@ void TempsEchantionnage(int TIME){
 }
 
 
+uint32_t timeMs(){
+  return mscount2;
+}
