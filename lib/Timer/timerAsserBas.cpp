@@ -2,10 +2,10 @@
 
 hw_timer_t * timer = NULL;
 
-volatile uint16_t mscount = 0;
+volatile uint16_t mscount = 0, mscount2 = 0;
 
 void onTime() {//fonction s'exécutent à chaque interruptions 
-   mscount++;
+   mscount++; mscount2++;
    
 }
 //Timer

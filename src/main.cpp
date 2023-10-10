@@ -47,9 +47,11 @@ void setup() {
                       |0x020*Voie5() | 0x040*Voie6() | 0x100*Voie7() | 0x200*Voie8();
   etatVoiesPrecedent = etatVoies;
 
-  trameWAck(adresse_mod, 0x88, 0x88);
-  // delay(400);//Attendre l'ACK au lieu du delay(400)
-  trameWAckV2(adresse_mod, (0xA400 + etatVoies));
+  if(trameWAck(adresse_mod, 0x88, 0x88)){
+    // delay(400);//Attendre l'ACK au lieu du delay(400)
+    trameWAckV2(adresse_mod, (0xA400 + etatVoies));
+  }
+  
   
   mscount = 0;
 

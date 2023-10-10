@@ -28,28 +28,32 @@ void trameV2(uint8_t adresse, uint16_t commande){
 }
 
 bool trameWAck(uint8_t adresse, uint8_t commande1, uint8_t commande0){//Fonction utilisable uniquement dans loop() je pense
-  const int TimeOut = 400, MaxRepeat = 4;
+  const int TimeOut = 1000 , MaxRepeat = 4;
 
   waitingForACK = true;
   waitingForACK_cmd = ((commande1<<8) & 0xFF00) | (commande0 & 0xFF);
 
   trame(adresse, commande1, commande0);
 
+  Serial.printf("\ntrameWAck  ;  ");
   delay(100);
   
-  int start_time = millis(), i = 0;
+  int start_time = millis(), i = 0; Serial.printf("start_time : %f  ", start_time);
   while(waitingForACK){
+    delay(100);
     if((millis() - start_time)>TimeOut){
       i++;
       if(i>MaxRepeat){
+        Serial.printf("No ACK received\n");
         waitingForACK = false; // Arrêtez d'attendre après le nombre maximal de répétitions
         return false;
         }
-      
+      Serial.printf("repeating...   ");
       trame(adresse, commande1, commande0);
       start_time = millis();
     }
   }
+  Serial.printf("ACK received !! \n");
 
   return true;
 }

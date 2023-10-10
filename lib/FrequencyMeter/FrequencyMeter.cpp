@@ -1,4 +1,5 @@
 #include <FrequencyMeter.h>
+#include <Protocole.h>
 
 #define OSCILLATOR  //Uncomment to active the oscillator
 
@@ -165,6 +166,22 @@ void oscillatorTestLoop(){
 
 float FrequencyLoop()
 {
+  //Afin de tester :
+  // static int freqTest[12+6] = {TON_2, TON_2, TON_2, TON_1, TON_1, TON_1, TON_8, TON_8, TON_8, TON_E, TON_E, TON_E, TON_8, TON_8, TON_8, TON_E, TON_E, TON_E};
+  // static int freqActuelle = 0, n = 0;
+
+  // if(freqActuelle < (12+6)){
+  //   if(!freqActuelle){delay(2000);}
+  //   return freqTest[freqActuelle++];
+  // }
+  // else if(n < 1){
+  //   n++;
+  //   delay(2000);
+  //   freqActuelle = 0;
+  //   return freqTest[freqActuelle++];
+  // }
+
+
   if (flag == true)                                                     // If count has ended
   {
     flag = false;                                                       // change flag to disable print
